@@ -255,5 +255,14 @@ pip-selfcheck.json
 # End of https://www.toptal.com/developers/gitignore/api/ssh
 # Custom
 
-devops-rampup
 *.pem
+
+# Ansible
+
+# Created by https://www.toptal.com/developers/gitignore/api/ansible
+# Edit at https://www.toptal.com/developers/gitignore?templates=ansible
+
+### Ansible ###
+*.retry
+
+# End of https://www.toptal.com/developers/gitignore/api/ansible
