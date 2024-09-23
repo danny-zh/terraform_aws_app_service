@@ -1,1 +1,13 @@
-hosts:
+---
+- name: "Play for provisioning app ec2 instances"
+  hosts: frontend
+  gather_facts: no
+  become: yes
+
+  pre_tasks:
+    - name: "Update package registry"
+      ansible.builtin.command: "yum update"
+
+  roles:
+    - role: ec2_app
+      tags: ec2

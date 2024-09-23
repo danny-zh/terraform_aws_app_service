@@ -17,7 +17,7 @@ resource "aws_instance" "app_frontend" {
     http_endpoint = "enabled"  # Enable the instance metadata service
   }
 
-  #user_data = file("../scripts/init-script.sh")
+  user_data = file("../scripts/init-script.sh")
 
   tags = {
       Name = "Frontend-Server-${count.index}"

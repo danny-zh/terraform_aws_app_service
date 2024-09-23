@@ -1,0 +1,25 @@
+- name: "First step"
+  ansible.builtin.debug:
+   msg: echo "this is test"
+
+- name: "Create destination directory"
+  ansible.builtin.file:
+   path: "{{ code_dest_dir }}"  # Path to the destination directory
+   state: directory  # Ensures the directory is created
+   mode: '0750'  # Set desired permissions for the directory
+
+- name: "Unarchive backend code files"
+  ansible.builtin.unarchive:
+   src: "movie-analyst-api.zip" #Must exist in roles/role/files
+   dest: "{{ code_dest_dir }}"
+   remote_src: no  # Indicates wheter the ZIP file is already on the remote node, otherwise copy it
+
+- name: "Change file permissions of backend code files"
+  ansible.builtin.file:
+   path: "{{ code_dest_dir }}" # Path to the extracted folder
+   owner: "ec2-user"  # Change to the desired owner
+   group: "ec2-user" #Change to the desired group
+   recurse: yes  # Apply permissions recursively
+
+- name: "Second step"
+  ansible.builtin.script: "backend_script.sh"

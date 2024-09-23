@@ -14,7 +14,7 @@ module "alb_tcp_internal" {
   listeners = {
     ex-forward = {
       port     = 3000
-      protocol = "HTTP"
+      protocol = "TCP"
       forward = {
         target_group_key = "backend_instances"
       }
@@ -24,7 +24,7 @@ module "alb_tcp_internal" {
   target_groups = {
     backend_instances = {
       name_prefix       = "b1"
-      protocol          = "HTTP"
+      protocol          = "TCP"
       port              = 3000
       target_type       = "instance"
       create_attachment = false #Instances will be added later
@@ -61,4 +61,3 @@ resource "aws_lb_target_group_attachment" "tg_attachment_internal" {
   port      = 3000
 
 }
-

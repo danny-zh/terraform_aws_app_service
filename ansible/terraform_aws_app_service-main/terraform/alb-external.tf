@@ -48,7 +48,7 @@ module "alb_http_external" {
       health_check = {
         enabled             = true
         interval            = 30
-        path                = "/"
+        path                = "/data.php"
         port                = "80"
         healthy_threshold   = 3
         unhealthy_threshold = 3
