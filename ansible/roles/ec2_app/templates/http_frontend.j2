@@ -1,0 +1,6 @@
+<VirtualHost *:80>
+    # Reverse Proxy to the local application running on port $FRONTED_PORT
+    ProxyPreserveHost On
+    ProxyPass / http://localhost:{{ FRONTED_PORT }}/
+    ProxyPassReverse / http://localhost:{{ FRONTED_PORT }}/
+</VirtualHost>

@@ -1,5 +1,8 @@
-[frontend]
-10.0.10.14
+plugin: amazon.aws.aws_ec2
+aws_profile: sv-aws-ansible
+regions: 
+  - us-east-1
 
-[backend]
-10.0.0.119
+groups:
+  frontend: "'Frontend' in tags.Name"
+  backend: "'Backend' in tags.Name"
