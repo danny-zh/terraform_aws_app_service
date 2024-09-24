@@ -83,7 +83,13 @@ variable "aws_frontend_instance_type" {
 variable "aws_frontend_instance_count" {
   description = "Number of instances to provision."
   type        = number
-  default     = 2
+  default     = 1
+}
+
+variable "aws_frontend_instance_port" {
+  type        = number
+  default     = 3030
+  description = "Port number for serving frontend app"
 }
 
 variable "aws_backend_instance_ami" {
@@ -104,6 +110,11 @@ variable "aws_backend_instance_count" {
   default     = 1
 }
 
+variable "aws_backend_instance_port" {
+  type        = number
+  default     = 3000
+  description = "Port number for serving backend app"
+}
 
 variable "aws_bastion_instance_ami" {
   type        = string
@@ -118,13 +129,6 @@ variable "aws_bastion_instance_type" {
 }
 
 # RDS variables
-
-variable "db_admin_storage" {
-  type        = number
-  description = "Db instance storage capacity"
-  default     = 20
-}
-
 variable "db_storage" {
   type        = number
   description = "Db instance storage capacity"
@@ -150,6 +154,7 @@ variable "db_instance_type" {
   default     = "db.t3.micro"
 }
 
+#RDS auth variables
 variable "db_admin_username" {
   type        = string
   description = "Db isntance admin user, value set by terraform.tfvars"
@@ -158,6 +163,11 @@ variable "db_admin_username" {
 variable "db_admin_passwd" {
   type        = string
   description = "Db instance admin password, alue set by terraform.tfvars"
+}
+
+variable "db_database_name" {
+  type        = string
+  description = "Db database name"
 }
 
 # Resource tags

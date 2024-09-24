@@ -1,4 +1,22 @@
 
+locals {
+  user_data_backend = <<EOT
+    #!/bin/bash
+
+    yum update
+    yum install -y mariadb105
+    
+    cat <<EOL >> /etc/profile
+    export DB_HOST=${split(":", aws_db_instance.app_database_rds.endpoint)[0]}:${var.aws_backend_instance_port}
+    export DB_USER=${var.db_admin_username}
+    export DB_PASS=${var.db_admin_passwd}
+    export DB_NAME=${var.db_database_name}
+    export PORT=${var.aws_backend_instance_port}
+    EOL
+    source /etc/profile
+  EOT
+}
+
 # Create app backend instances
 resource "aws_instance" "app_backend" {
 
@@ -18,13 +36,8 @@ resource "aws_instance" "app_backend" {
     http_endpoint = "enabled"  # Enable the instance metadata service
   }
 
-  user_data = <<-EOF
-  #!/bin/bash
-  yum update
-  yum install -y mariadb105
-  echo "export MYSQL_SERVER=${split(":", aws_db_instance.app_database_rds.endpoint)[0]}" >> /home/ec2-user/.bashrc
-  EOF
-
+  user_data = local.user_data_backend
+  
   tags =  {
       Name = "Backend-Server-${count.index}"
     }

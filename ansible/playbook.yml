@@ -1,5 +1,18 @@
 ---
-- name: "Play for provisioning app ec2 instances"
+- name: "Play for provisioning backend app ec2 instances"
+  hosts: backend
+  gather_facts: no
+  become: yes
+
+  pre_tasks:
+    - name: "Update package registry"
+      ansible.builtin.command: "yum update"
+
+  roles:
+    - role: ec2_backend
+      tags: backend
+
+- name: "Play for provisioning frontend app ec2 instances"
   hosts: frontend
   gather_facts: no
   become: yes
@@ -9,5 +22,5 @@
       ansible.builtin.command: "yum update"
 
   roles:
-    - role: ec2_app
-      tags: ec2
+    - role: ec2_frontend
+      tags: frontend

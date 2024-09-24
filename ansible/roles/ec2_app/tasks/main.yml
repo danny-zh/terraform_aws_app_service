@@ -1,5 +1,0 @@
-- name: "Prosivion ec2 instances"
-  include_tasks:  "{{ item }}"
-  loop:
-    - ec2-backend.yml
-    - ec2-frontend.yml

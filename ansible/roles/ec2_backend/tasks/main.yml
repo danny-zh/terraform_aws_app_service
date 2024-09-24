@@ -1,0 +1,14 @@
+- name: "Create backend destination directory"
+  
+  ansible.builtin.file:
+   path: "{{ backend_code_dest_dir }}"  # Path to the destination directory
+   state: directory  # Ensures the directory is created
+
+- name: "Unarchive backend code files"
+  ansible.builtin.unarchive:
+   src: "movie-analyst-api.zip" #Must exist in roles/role/files
+   dest: "{{ backend_code_dest_dir }}"
+   remote_src: no  # Indicates wheter the ZIP file is already on the remote node, otherwise copy it
+
+- name: "Initiate Backend Script"
+  ansible.builtin.script: "backend_script.sh {{ backend_code_dest_dir }}"

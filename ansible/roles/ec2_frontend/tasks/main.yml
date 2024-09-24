@@ -1,0 +1,34 @@
+---
+# tasks file for roles/ec2_frontend
+
+- name: "Create frontend destination directory"
+  ansible.builtin.file:
+   path: "{{ frontend_code_dest_dir }}"  # Path to the destination directory
+   state: directory  # Ensures the directory is created
+
+- name: "Unarchive frontend code files"
+  ansible.builtin.unarchive:
+   src: "movie-analyst-ui.zip" #Must exist in roles/role/files
+   dest: "{{ frontend_code_dest_dir }}"
+   remote_src: no  # Indicates wheter the ZIP file is already on the remote node, otherwise copy it
+
+- name: "Install frontend httpd service"
+  ansible.builtin.package:
+    name:  httpd 
+    state: present
+
+- name: "Create frontend httpd virtual host"
+  ansible.builtin.template:
+    src:  "http_frontend.j2" # The template file in the templates/ directory
+    dest: /etc/httpd/conf.d/http_frontend.conf   # Destination on the target machine
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: "Start frontend httpd service"
+  ansible.builtin.service:
+    name:  httpd 
+    state: started
+
+- name: "Initiate Frontend Script"
+  ansible.builtin.script: "frontend_script.sh {{ frontend_code_dest_dir }}"

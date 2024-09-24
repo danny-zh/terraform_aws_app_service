@@ -1,3 +1,12 @@
+locals {
+  user_data_frontend = <<-EOT
+    #!/bin/bash
+    echo "export BACKEND_URL=${module.alb_tcp_internal.dns_name}" >> /etc/profile
+    echo "export PORT=${var.aws_frontend_instance_port}" >> /etc/profile
+    source /etc/profile
+    EOT
+}
+
 # Create app frontend instances
 resource "aws_instance" "app_frontend" {
 
@@ -17,7 +26,7 @@ resource "aws_instance" "app_frontend" {
     http_endpoint = "enabled"  # Enable the instance metadata service
   }
 
-  #user_data = file("../scripts/init-script.sh")
+  user_data = local.user_data_frontend
 
   tags = {
       Name = "Frontend-Server-${count.index}"

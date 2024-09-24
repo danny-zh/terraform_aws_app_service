@@ -3,6 +3,11 @@ output "elb_public_dns_name" {
   value       = module.alb_http_external.dns_name
 }
 
+output "elb_internal_dns_name" {
+  description = "Internal DNS name of the load balancer for this project"
+  value       = module.alb_tcp_internal.dns_name
+}
+
 output "bastion_host_public_ip" {
   description = "Public IP for bastion host"
   value       = [aws_instance.bastion_host[*].public_ip]

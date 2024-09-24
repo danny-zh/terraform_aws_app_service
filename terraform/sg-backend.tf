@@ -9,8 +9,8 @@ module "app_backend_security_group" {
 
 
   ingress_with_source_security_group_id = [{
-    from_port                = 3000
-    to_port                  = 3000
+    from_port                = var.aws_backend_instance_port
+    to_port                  = var.aws_backend_instance_port
     protocol                 = "tcp"
     source_security_group_id = module.alb_tcp_internal.security_group_id
     description              = "Accept http traffic only from interal elb"
